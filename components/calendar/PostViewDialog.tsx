@@ -61,6 +61,11 @@ interface Props {
   onClose: () => void;
 }
 
+function ensureAbsoluteUrl(url: string) {
+  if (!url) return "#";
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
 export default function PostViewDialog({ date, post, onClose }: Props) {
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -135,7 +140,7 @@ export default function PostViewDialog({ date, post, onClose }: Props) {
                       return (
                         <a
                           key={p.id ?? p.name}
-                          href={p.url || "#"}
+                          href={ensureAbsoluteUrl(p.url)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-3 rounded-xl border border-gray-100 px-4 py-3 hover:shadow-sm transition-all group"

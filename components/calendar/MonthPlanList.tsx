@@ -12,6 +12,11 @@ import {
 } from "react-icons/fa";
 import { ExternalLink, CalendarDays } from "lucide-react";
 
+function ensureAbsoluteUrl(url: string) {
+  if (!url) return "#";
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
 const PLATFORM_INFO: Record<
   PlatformName,
   { label: string; icon: React.ReactNode; color: string }
@@ -141,7 +146,7 @@ export default function MonthPlanList({
                         return p.url ? (
                           <a
                             key={p.id ?? p.name}
-                            href={p.url}
+                            href={ensureAbsoluteUrl(p.url)}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
